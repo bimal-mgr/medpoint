@@ -8,20 +8,31 @@ if (isset($_GET["id"]) && isset($_GET["user"]) && isset($_GET["count"])) {
     $date = date("Y/m/d");
 
     $sql = "SELECT * FROM tbcart WHERE username = '$user' AND pid = $id";
+    $sql2 = "SELECT * FROM tbproduct WHERE id = '$id'";
     $result = mysqli_query($conn, $sql);
+    $result2 = mysqli_query($conn, $sql2);
 
+    if (mysqli_num_rows($result2) <= 0) {
+        exit();
+    }
+    $row2 = mysqli_fetch_assoc($result2);
+    $stock = $row2["stock"];
+    $stock -= $quantity;
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $count = $row["count"] + $quantity;
-
         $sql = "UPDATE tbcart SET count = $count, buydate = '$date' WHERE username = '$user' AND pid = $id";
         mysqli_query($conn, $sql);
-
-        echo "<script>window.location.href = '/medpoint'</script>";
+        $sql2 = "UPDATE tbproduct set stock = $stock WHERE id ='$id'";
+        mysqli_query($conn, $sql2);
+        echo $stock;
         exit();
     } else {
         $sql = "INSERT INTO tbcart (username, pid, count,buydate) VALUES ('$user', $id, $quantity, '$date')";
         mysqli_query($conn, $sql);
+        $sql2 = "UPDATE tbproduct set stock = $stock WHERE id ='$id'";
+        mysqli_query($conn, $sql2);
+        echo $stock;
         exit();
     }
 } elseif (isset($_GET["user"])) {
