@@ -47,13 +47,13 @@
             echo "<div>
                 <button data-id='" .
                 $row["id"] .
-                "' id='cartButton' class='text-center m-4 p-1 text-white font-semibold hover:cursor-pointer active:bg-med-drklime bg-med-lime rounded-full w-[8rem]'>
-                Add to cart
+                "' id='cartButton' class='text-center m-4 p-1 text-white font-semibold hover:cursor-pointer active:bg-orange-900 bg-orange-500 rounded-full w-[8rem]'>
+                Buy now
                 </button>
                 <button data-id='" .
                 $row["id"] .
-                "' id='buyButton' class='text-center m-4 p-1 text-white font-semibold hover:cursor-pointer active:bg-med-drklime bg-med-lime rounded-full w-[8rem]'>
-                Buy now
+                "' onclick='addToCart(event)' id='buyButton' class='text-center m-4 p-1 text-white font-semibold hover:cursor-pointer active:bg-med-drklime bg-med-lime rounded-full w-[8rem]'>
+                Add to cart
                 </button>
                 </div>";
         } else {

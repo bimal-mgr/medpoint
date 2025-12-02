@@ -25,22 +25,6 @@ const performSearch = () => {
   }
 };
 
-const cart = (id, username, event) => {
-  let request = new XMLHttpRequest();
-  request.open("GET", "cart.php?user=" + username + "&id=" + id);
-  request.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      clearTimeout(timeout);
-      event.target.innerText = "Added!!";
-      updateCartNum(username);
-      timeout = setTimeout(() => {
-        event.target.innerText = "Add to cart";
-      }, 500);
-    }
-  };
-  request.send();
-};
-
 const updateCartNum = (username) => {
   let request = new XMLHttpRequest();
   request.open("GET", "cart.php?user=" + username);
@@ -51,6 +35,7 @@ const updateCartNum = (username) => {
   };
   request.send();
 };
+updateCartNum(getCookie("username"));
 
 // event listeners
 clear.addEventListener("click", () => {
@@ -64,28 +49,3 @@ searchBar.addEventListener("keydown", (e) => {
     performSearch();
   }
 });
-
-function addToCart(klas, add) {
-  const buttons = document.querySelectorAll("." + klas);
-  if (!add) {
-    buttons.forEach((button) => {
-      button.removeEventListener("click", gatherInfo);
-      return;
-    });
-  }
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", gatherInfo);
-  });
-
-  function gatherInfo(event) {
-    const username = getCookie("username");
-    const id = event.target.getAttribute("data-id");
-    cart(id, username, event);
-  }
-}
-
-addToCart("cartButtons", true);
-if (getCookie("username") !== undefined) {
-  updateCartNum(getCookie("username"));
-}
