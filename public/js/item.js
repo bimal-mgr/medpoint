@@ -1,4 +1,4 @@
-const quantity = document.getElementById("quantity");
+const domQuantity = document.getElementById("quantity");
 const stock = document.getElementById("stock");
 const remove = document.getElementById("remove");
 const add = document.getElementById("add");
@@ -7,17 +7,17 @@ const share = document.getElementById("share");
 const cartNum = document.getElementById("cartNum");
 
 remove.addEventListener("click", () => {
-  let currentQuantity = parseInt(quantity.innerText);
+  let currentQuantity = parseInt(domQuantity.innerText);
   if (currentQuantity > 1) {
-    quantity.innerText = currentQuantity - 1;
+    domQuantity.innerText = currentQuantity - 1;
   }
 });
 
 add.addEventListener("click", () => {
-  let currentQuantity = parseInt(quantity.innerText);
+  let currentQuantity = parseInt(domQuantity.innerText);
   let currentStock = stock.getAttribute("data-stock");
   if (currentQuantity < currentStock) {
-    quantity.innerText = currentQuantity + 1;
+    domQuantity.innerText = currentQuantity + 1;
   }
 });
 
@@ -40,6 +40,7 @@ const cart = (id, button, quantity) => {
       clearTimeout(timeout);
       button.innerText = "Added!!";
       updateCartIcon();
+      domQuantity.innerText = 1;
       timeout = setTimeout(() => {
         button.innerText = "Add to cart";
       }, 500);
@@ -58,6 +59,7 @@ function deliverComponent(query, button) {
       updateCartIcon();
       clearTimeout(timeout);
       button.innerText = "bought!!";
+      domQuantity.innerText = 1;
       timeout = setTimeout(() => {
         button.innerText = "Buy now";
       }, 500);
@@ -82,13 +84,13 @@ updateCartIcon();
 function addToCart(event) {
   const button = event.target;
   const id = button.getAttribute("data-id");
-  const count = parseInt(quantity.innerText);
+  const count = parseInt(domQuantity.innerText);
   cart(id, button, count);
 }
 
 function buyNow(event) {
   const button = event.target;
   const id = button.getAttribute("data-id");
-  const count = parseInt(quantity.innerText);
+  const count = parseInt(domQuantity.innerText);
   deliverComponent("?q=one&id=" + id + "&quantity=" + count, button);
 }

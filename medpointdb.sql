@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 11, 2025 at 09:34 PM
+-- Generation Time: Dec 03, 2025 at 07:54 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -30,36 +30,10 @@ SET time_zone = "+00:00";
 CREATE TABLE `tbcart` (
   `username` varchar(10) DEFAULT NULL,
   `pid` int(11) DEFAULT NULL,
-  `count` int(11) NOT NULL,
-  `buydate` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbproduct`
---
-
-CREATE TABLE `tbproduct` (
-  `id` int(11) NOT NULL,
-  `name` varchar(250) DEFAULT NULL,
-  `image_path` text DEFAULT NULL,
-  `price` int(11) NOT NULL,
-  `stock` int(11) NOT NULL,
-  `category` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbuser`
---
-
-CREATE TABLE `tbuser` (
-  `username` varchar(10) NOT NULL,
-  `fullname` text NOT NULL,
-  `password` text NOT NULL,
-  `phone` varchar(10) DEFAULT NULL
+  `quantity` int(11) NOT NULL,
+  `buydate` date DEFAULT NULL,
+  `isdelivered` tinyint(1) NOT NULL DEFAULT 0,
+  `orderid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -70,30 +44,20 @@ CREATE TABLE `tbuser` (
 -- Indexes for table `tbcart`
 --
 ALTER TABLE `tbcart`
+  ADD PRIMARY KEY (`orderid`),
   ADD KEY `fk_username` (`username`),
-  ADD KEY `fk_pid` (`pid`);
-
---
--- Indexes for table `tbproduct`
---
-ALTER TABLE `tbproduct`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tbuser`
---
-ALTER TABLE `tbuser`
-  ADD PRIMARY KEY (`username`);
+  ADD KEY `fk_pid` (`pid`),
+  ADD KEY `idx_isdelivered` (`isdelivered`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `tbproduct`
+-- AUTO_INCREMENT for table `tbcart`
 --
-ALTER TABLE `tbproduct`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbcart`
+  MODIFY `orderid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
