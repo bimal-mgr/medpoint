@@ -20,7 +20,7 @@ if (isset($_GET["number"])) {
 }
 ?>
 
-    <div class="fixed bottom-10 right-10 w-12 h-12">
+    <div class="fixed bottom-10 z-30 right-10 w-12 h-12">
         <a href="profile.php" class="relative hover:cursor-pointer">
         <img class="w-full h-full rounded-full bg-white shadow-md p-2" src="./public/cart.svg" alt="">
 

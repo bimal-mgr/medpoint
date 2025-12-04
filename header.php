@@ -37,6 +37,51 @@
        border: 2px solid var(--color-med-lime);
        transition: all 0.3s ease;
    }
+   .btn {
+       padding: 14px 32px;
+       border: none;
+       border-radius: 8px;
+       font-size: 16px;
+       font-weight: 600;
+       transition: all 0.3s;
+   }
+   .hero::before {
+       content: '';
+       position: absolute;
+       top: -50%;
+       right: -10%;
+       width: 500px;
+       height: 500px;
+       background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="%23ffffff" opacity="0.1"/></svg>');
+       background-size: contain;
+   }
+   .feature-card {
+       background: white;
+       padding: 24px;
+       border-radius: 12px;
+       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+       text-align: center;
+       transition: transform 0.3s;
+   }
+   .feature-card:hover {
+       transform: translateY(-5px);
+   }
+
+   .feature-icon {
+       font-size: 40px;
+       margin-bottom: 12px;
+   }
+
+   .feature-card h3 {
+       font-size: 18px;
+       margin-bottom: 8px;
+       color: #00796b;
+   }
+
+   .feature-card p {
+       font-size: 14px;
+       color: #666;
+   }
 }
     </style>
 </head>
