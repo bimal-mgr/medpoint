@@ -13,7 +13,7 @@
   </style>
   <style type="text/tailwindcss">
     body{
-      background: #f5f5f5;
+      background: #f8f9fa;
     }
     @theme {
   --font-heading: "Inter";

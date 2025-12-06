@@ -3,11 +3,12 @@
 
     <?php
     session_start();
-    $conn = new mysqli("localhost", "root", "", "medpointdb");
+    $conn = new mysqli("localhost", "root", "", "medpoint");
     if ($conn->connect_error) {
         die("Connection failed: ");
     }
-    $sql = "SELECT * FROM tbproduct WHERE stock > 0";
+    $sql =
+        "SELECT * FROM inventory JOIN products ON inventory.product_id=products.product_id JOIN categories on products.category_id = categories.category_id;";
     $data = [];
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
@@ -31,11 +32,13 @@
                 <?php echo $category; ?>
             </h3>
                 <?php foreach ($items as $item) { ?>
-            <a href="item.php?id=<?php echo $item["id"]; ?>">
+            <a href="item.php?sid=<?php echo $item[
+                "seller_id"
+            ]; ?>&pid=<?php echo $item["product_id"]; ?>">
                 <div class='flex bg-white rounded-xl transition-all hover:-translate-y-1 flex-col items-start shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]'>
                     <div class='h-[200px] w-full bg-[#f5f5f5] flex justify-center items-center'>
                         <img class="h-28 w-28" src="<?php echo $item[
-                            "image_path"
+                            "image_url"
                         ]; ?>" alt='item'>
                     </div>
                     <div class='p-4 overflow-hidden flex w-full flex-col gap-2'>
@@ -43,7 +46,7 @@
                             "name"
                         ]; ?></p>
                         <p class="text-[#00796b] text-2xl font-extrabold">Rs. <?php echo $item[
-                            "price"
+                            "unit_price"
                         ]; ?></p>
                     </div>
                 </div>

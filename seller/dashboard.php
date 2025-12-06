@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["username"])) {
-    echo "<script>window.location.href = '/medpoint/login.php';</script>";
+    echo "<script>window.location.href = '/medpoint/login.php?type=seller';</script>";
     exit();
 }
 if ($_SESSION["level"] != 2) {

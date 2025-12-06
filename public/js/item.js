@@ -5,12 +5,12 @@ const add = document.getElementById("add");
 const buy = document.getElementById("buy");
 const share = document.getElementById("share");
 const cartNum = document.getElementById("cartNum");
-const category = document.getElementById("category");
+const seller = document.getElementById("seller");
 const related = document.getElementById("related");
 
 document.addEventListener("DOMContentLoaded", () => {
   let request = new XMLHttpRequest();
-  request.open("GET", "search.php?related=" + category.innerText);
+  request.open("GET", "search.php?related=" + seller.innerText);
   request.onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       related.innerHTML = this.responseText;
@@ -49,7 +49,6 @@ const cart = (id, button, quantity) => {
   request.open("GET", "cart.php?id=" + id + "&quantity=" + quantity);
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      stock.innerText = this.responseText;
       clearTimeout(timeout);
       button.innerText = "Added!!";
       updateCartIcon();

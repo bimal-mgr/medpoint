@@ -1,13 +1,13 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "medpointdb");
+$conn = new mysqli("localhost", "root", "", "medpoint");
 session_start();
 if (isset($_GET["number"])) {
-    if (!isset($_SESSION["username"])) {
+    if (!isset($_SESSION["user_id"])) {
         echo 0;
         exit();
     }
-    $username = $_SESSION["username"];
-    $sql = "SELECT COUNT(*) FROM tbcart WHERE username = '$username' AND isdelivered = 0";
+    $user_id = $_SESSION["user_id"];
+    $sql = "SELECT COUNT(*) FROM cart WHERE user_id = '$user_id'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);

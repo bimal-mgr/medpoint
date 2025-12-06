@@ -43,19 +43,15 @@ function deliverComponent() {
   request.open("GET", url);
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      if (this.responseText === "success") {
-        content.innerHTML = emptyElement;
-      } else {
-        alert("Delivery failed!");
-      }
+      content.innerHTML = emptyElement;
     }
   };
   request.send();
 }
 
-function removeFromCart(event, orderid) {
+function removeFromCart(event, cartid) {
   let request = new XMLHttpRequest();
-  let url = "cart.php?orderid=" + orderid;
+  let url = "cart.php?cartid=" + cartid;
   request.open("GET", url);
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
