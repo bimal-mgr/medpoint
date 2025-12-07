@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 06, 2025 at 04:04 PM
+-- Generation Time: Dec 07, 2025 at 04:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,14 +52,6 @@ CREATE TABLE `cart` (
   `number` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`cart_id`, `user_id`, `inventory_id`, `number`) VALUES
-(4, 4, 2, 1),
-(5, 1, 2, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -103,8 +95,10 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`inventory_id`, `stock`, `product_id`, `image_url`, `description`, `seller_id`, `unit_price`) VALUES
-(1, 0, 5, 'public/medicine.svg', 'very good product niceee.', 1, 50),
-(2, 46, 6, 'public/medicine.svg', 'vitamin d good for body', 1, 20);
+(1, 10, 5, 'public/medicine.svg', 'very good product niceee.', 1, 50),
+(2, 10, 6, 'public/medicine.svg', 'vitamin d good for body', 1, 20),
+(3, 10, 1, 'public/medicine.svg', 'para para cit mol', 2, 20),
+(4, 10, 3, 'public/medicine.svg', 'Anmol xicilin', 2, 60);
 
 -- --------------------------------------------------------
 
@@ -117,13 +111,6 @@ CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
   `buyer_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`order_date`, `order_id`, `buyer_id`) VALUES
-('2025-12-06 12:18:11', 12, 4);
 
 -- --------------------------------------------------------
 
@@ -138,13 +125,6 @@ CREATE TABLE `order_items` (
   `seller_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`order_item_id`, `order_id`, `product_id`, `seller_id`, `quantity`) VALUES
-(14, 12, 6, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -191,7 +171,8 @@ CREATE TABLE `seller` (
 --
 
 INSERT INTO `seller` (`seller_id`, `shop_name`, `approval`, `document_path`, `user_id`) VALUES
-(1, 'shop1', 1, 'by_developer', 3);
+(1, 'shop1', 1, 'by_developer', 3),
+(2, 'shop2', 1, 'by_developer', 5);
 
 -- --------------------------------------------------------
 
@@ -200,22 +181,27 @@ INSERT INTO `seller` (`seller_id`, `shop_name`, `approval`, `document_path`, `us
 --
 
 CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `full_name` varchar(100) NOT NULL,
+  `gender` text NOT NULL DEFAULT 'prefer not to say',
   `phone_number` varchar(20) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `address` text DEFAULT NULL,
+  `city` text DEFAULT NULL,
+  `province` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`username`, `password`, `full_name`, `phone_number`, `user_id`) VALUES
-('sumitpdl', 'sumit', 'sumit poudel', '9829234584', 1),
-('admin', 'admin', 'admin', '1111111111', 2),
-('seller', 'seller', 'seller', '2222222222', 3),
-('bimal', 'Bimal@12', 'bimal rana magar', '9812345678', 4);
+INSERT INTO `users` (`user_id`, `username`, `password`, `full_name`, `gender`, `phone_number`, `address`, `city`, `province`) VALUES
+(1, 'sumitpdl', 'sumit', 'sumit poudel', 'male', '9829234584', 'basanta chowk, bharatpur', 'bharatput-18', 'bagmati'),
+(2, 'admin', 'admin', 'admin', 'male', '1111111111', 'chitwan', 'chitwan', 'bagmati'),
+(3, 'seller', 'seller', 'seller', 'female', '2222222222', 'seller pur', 'seller pur', 'bagmati'),
+(4, 'bimal', 'Bimal@12', 'bimal rana magar', 'prefer not to say', '9812345678', NULL, NULL, NULL),
+(5, 'seller2', 'seller2', 'seller2', 'prefer not to say', '3333333333', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -301,7 +287,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -313,19 +299,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -337,13 +323,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `seller`
 --
 ALTER TABLE `seller`
-  MODIFY `seller_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `seller_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

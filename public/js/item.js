@@ -75,6 +75,9 @@ function deliverComponent(query, button) {
       timeout = setTimeout(() => {
         button.innerText = "Buy now";
       }, 500);
+      timeout = setTimeout(() => {
+        window.location.reload();
+      }, 100);
     }
   };
   request.send();

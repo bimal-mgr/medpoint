@@ -32,11 +32,11 @@ if (isset($_GET["q"])) {
             $row = mysqli_fetch_assoc($result);
             ?>
         <div class='bg-white shadow-md rounded-2xl w-full'>
-            <form action="" method="post">
+            <form action="update.php?type=profile" method="post">
             <div class="p-7 border-b border-[#eee] flex justify-between items-center">
                 <h1 class="text-2xl font-bold text-[#333]">Edit Profile</h1>
                 <div>
-                    <button type="button" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#555]" onclick="window.location.href='profile.php'">cancel</button>
+                    <button type="button" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#555]" onclick="rerender()">cancel</button>
                     <button type="submit" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#00bfa5] hover:bg-[#00807b] text-white hover:-translate-y-1 hover:shadow-[0_4px_12px_rgba(0,191,165,0.3)] ">💾 Save Changes</button>
                 </div>
             </div>
@@ -47,13 +47,13 @@ if (isset($_GET["q"])) {
                     <div class="grid grid-cols-2 gap-5 mb-5">
                         <div class="flex flex-col">
                             <label for="username" class="font-base font-semibold mb-2 text-[#555]">Username</label>
-                            <input name="username" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white disabled:text-[#999] disabled:bg-[#f5f5f5] cursor-not-allowed py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
+                            <input name="username" id="username" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white disabled:text-[#999] disabled:bg-[#f5f5f5] cursor-not-allowed py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
                                 "username"
                             ]; ?>" disabled>
                         </div>
                         <div class="flex flex-col">
                             <label for="full_name" class="font-base font-semibold mb-2 text-[#555]">Full Name</label>
-                            <input name="full_name" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
+                            <input name="full_name" id="full_name" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
                                 "full_name"
                             ]; ?>">
                         </div>
@@ -62,15 +62,31 @@ if (isset($_GET["q"])) {
                         <div class="flex flex-col">
                             <label for="gender" class="font-base font-semibold mb-2 text-[#555]">Gender</label>
                             <select name="gender" id="gender" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all">
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Other</option>
-                                <option>Prefer not to say</option>
+                                <option value="male" <?php if (
+                                    $row["gender"] == "male"
+                                ) {
+                                    echo "selected";
+                                } ?>>Male</option>
+                                <option value="female" <?php if (
+                                    $row["gender"] == "female"
+                                ) {
+                                    echo "selected";
+                                } ?>>Female</option>
+                                <option value="other" <?php if (
+                                    $row["gender"] == "other"
+                                ) {
+                                    echo "selected";
+                                } ?>>Other</option>
+                                <option value="prefer not to say" <?php if (
+                                    $row["gender"] == "prefer not to say"
+                                ) {
+                                    echo "selected";
+                                } ?>>Prefer not to say</option>
                             </select>
                         </div>
                         <div class="flex flex-col">
                             <label for="phone_number" class="font-base font-semibold mb-2 text-[#555]">Phone Number</label>
-                            <input name="phone_number" type="tel" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
+                            <input name="phone_number" id="phone_number" type="tel" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
                                 "phone_number"
                             ]; ?>">
                         </div>
@@ -81,25 +97,62 @@ if (isset($_GET["q"])) {
                     <h3 class="text-lg font-semibold text-[#333] mb-5 pb-2 border-b-2 border-[#f0f0f0]">Address Information</h3>
                     <div class="grid grid-cols-2 gap-5 mb-5">
                         <div class="flex flex-col">
-                            <label for="street_address" class="font-base font-semibold mb-2 text-[#555]">Street Address</label>
-                            <input name="street_address" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="basanta chowk, chitwan">
+                            <label for="street" class="font-base font-semibold mb-2 text-[#555]">Street Address</label>
+                            <input value="<?php echo $row[
+                                "address"
+                            ]; ?>" name="street" id="street" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="basanta chowk, chitwan">
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-5 mb-5">
                         <div class="flex flex-col">
                             <label for="city" class="font-base font-semibold mb-2 text-[#555]">City</label>
-                            <input name="city" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="chitwan">
+                            <input value="<?php echo $row[
+                                "city"
+                            ]; ?>" name="city" id="city" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="chitwan">
                         </div>
                         <div class="flex flex-col">
                             <label for="province" class="font-base font-semibold mb-2 text-[#555]">Province</label>
-                            <select name="province" id="province" class="outline-none focus:border-[#00bfa5] hover:bg-white disabled:text-[#999] py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all">
-                                <option value="bagmati">Bagmati</option>
-                                <option value="gandaki">Gandaki</option>
-                                <option value="lumbini">Lumbini</option>
-                                <option value="koshi">Koshi</option>
-                                <option value="madhesh">Madhesh</option>
-                                <option value="karnali">Karnali</option>
-                                <option value="sudurpashchim">Sudurpashchim</option>
+                            <select name="province" id="province" class="appearance-auto outline-none focus:border-[#00bfa5] hover:bg-white disabled:text-[#999] py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all">
+                                <option value="bagmati" <?php if (
+                                    $row["province"] == "bagmati"
+                                ) {
+                                    echo "selected";
+                                } ?> >Bagmati</option>
+                                <option value="gandaki" <?php if (
+                                    $row["province"] == "gandaki"
+                                ) {
+                                    echo "selected";
+                                } ?> >Gandaki</option>
+                                <option value="lumbini" <?php if (
+                                    $row["province"] == "lumbini"
+                                ) {
+                                    echo "selected";
+                                } ?> >Lumbini</option>
+                                <option value="koshi" <?php if (
+                                    $row["province"] == "koshi"
+                                ) {
+                                    echo "selected";
+                                } ?> >Koshi</option>
+                                <option value="madhesh" <?php if (
+                                    $row["province"] == "madhesh"
+                                ) {
+                                    echo "selected";
+                                } ?> >Madhesh</option>
+                                <option value="karnali" <?php if (
+                                    $row["province"] == "karnali"
+                                ) {
+                                    echo "selected";
+                                } ?> >Karnali</option>
+                                <option value="sudurpashchim" <?php if (
+                                    $row["province"] == "sudurpashchim"
+                                ) {
+                                    echo "selected";
+                                } ?> >Sudurpashchim</option>
+                                <option value="" <?php if (
+                                    $row["province"] == ""
+                                ) {
+                                    echo "selected";
+                                } ?> >No Province</option>
                             </select>
                         </div>
                     </div>
@@ -109,7 +162,7 @@ if (isset($_GET["q"])) {
             </form>
     </div>
             <?php break;
-        case "address": ?>
+        case "seller": ?>
             <div class='w-full h-full flex justify-center items-center'>
                 become a seller
             </div>
@@ -149,7 +202,7 @@ if (isset($_GET["q"])) {
                                                         ]; ?></div>
                                                         <button class="bg-[#ffebee] px-6 py-2 text-red-500 cursor-pointer rounded-md text-sm transition-all
                                                             hover:bg-red-500 hover:text-white hover:font-semibold hover:-translate-y-1"
-                                                            onclick="removeFromCart(event,<?php echo $row[
+                                                            onclick="removeFromCart(<?php echo $row[
                                                                 "cart_id"
                                                             ]; ?>)" >🗑️ Remove</button>
                                                     </div>
@@ -260,8 +313,7 @@ if (isset($_GET["q"])) {
                                               <div class="text-3xl font-bold text-[#00796b]">Rs. <?php echo $order[
                                                   "unit_price"
                                               ]; ?></div>
-                                              <div class="bg-white px-6 py-2 text-[#666] cursor-pointer rounded-md text-sm transition-all
-                                                  hover:bg-red-500 hover:text-white hover:font-semibold hover:-translate-y-1">
+                                              <div class="bg-white px-6 py-2 text-[#666] cursor-pointer rounded-md text-sm">
                                                       total: Rs. <?php
                                                       $total +=
                                                           $order["total_price"];
@@ -417,8 +469,26 @@ if (isset($_GET["q"])) {
                         </div>
                         <div>
                             <ul class="text-[#555]" >
-                                <li class="hover:bg-[#f5f5f5] border-l-2 border-transparent hover:border-[#00bfa5] transition-all hover:text-[#00796b]" ><button class="px-6 py-[12px]" id="profile"><span>👤</span> Edit Profile</button></li>
-                                <li class="hover:bg-[#f5f5f5] border-l-2 border-transparent hover:border-[#00bfa5] transition-all hover:text-[#00796b]" ><button class="px-6 py-[12px]" id="address"><span>💊</span> Become a Seller</button></li>
+                                <li class="hover:bg-[#f5f5f5] border-l-2 border-transparent hover:border-[#00bfa5] transition-all hover:text-[#00796b]" ><button class="px-6 py-[12px]" onclick="ajaxComponent('profile')"><span>👤</span> Edit Profile</button></li>
+                                <li class="hover:bg-[#f5f5f5] border-l-2 border-transparent hover:border-[#00bfa5] transition-all hover:text-[#00796b]" >
+                                    <?php if ($_SESSION["level"] == 1) { ?>
+                                        <a href="admin/dashboard.php">
+                                            <button type="button" class="px-6 py-[12px]">
+                                            <span>💊</span> Admin Dashboard
+                                            </button>
+                                        </a>
+                                        <?php } elseif (
+                                        $_SESSION["level"] == 2
+                                    ) { ?>
+                                        <a href="seller/dashboard.php">
+                                            <button type="button" class="px-6 py-[12px]">
+                                            <span>💊</span> Seller Dashboard
+                                            </button>
+                                        </a>
+                                    <?php } else { ?>
+                                        <button type="button" class="px-6 py-[12px]" onclick="ajaxComponent('seller')" ><span>💊</span> Become a Seller</button>
+                                        <?php } ?>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -428,8 +498,8 @@ if (isset($_GET["q"])) {
                         </div>
                         <div>
                             <ul class="text-[#555]" >
-                                <li class="hover:bg-[#f5f5f5] border-l-2 border-transparent hover:border-[#00bfa5] transition-all hover:text-[#00796b]" ><button class="px-6 py-[12px]" id="orders"><span>🛒</span> Orders</button></li>
-                                <li class="hover:bg-[#f5f5f5] border-l-2 border-transparent hover:border-[#00bfa5] transition-all hover:text-[#00796b]" ><button class="px-6 py-[12px]" id="delivered"><span>📦</span> Shipped</button></li>
+                                <li class="hover:bg-[#f5f5f5] border-l-2 border-transparent hover:border-[#00bfa5] transition-all hover:text-[#00796b]" ><button class="px-6 py-[12px]" onclick="ajaxComponent('orders')"><span>🛒</span> Orders</button></li>
+                                <li class="hover:bg-[#f5f5f5] border-l-2 border-transparent hover:border-[#00bfa5] transition-all hover:text-[#00796b]" ><button class="px-6 py-[12px]" onclick="ajaxComponent('delivered')"><span>📦</span> Shipped</button></li>
                             </ul>
                         </div>
                     </div>

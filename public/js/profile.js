@@ -1,7 +1,3 @@
-const profile = document.getElementById("profile");
-const address = document.getElementById("address");
-const orders = document.getElementById("orders");
-const delivered = document.getElementById("delivered");
 const content = document.getElementById("profileContent");
 const emptyElement = `<div class='bg-white shadow-md rounded-2xl w-full'>
     <div class="p-7 border-b border-[#eee] flex justify-between items-center">
@@ -17,20 +13,6 @@ const emptyElement = `<div class='bg-white shadow-md rounded-2xl w-full'>
 
 // initial load
 window.onload = ajaxComponent("profile");
-
-// event listeners
-profile.addEventListener("click", () => {
-  ajaxComponent("profile");
-});
-address.addEventListener("click", () => {
-  ajaxComponent("address");
-});
-orders.addEventListener("click", () => {
-  ajaxComponent("orders");
-});
-delivered.addEventListener("click", () => {
-  ajaxComponent("delivered");
-});
 
 // ajax component
 
@@ -58,7 +40,7 @@ function deliverComponent() {
   request.send();
 }
 
-function removeFromCart(event, cartid) {
+function removeFromCart(cartid) {
   let request = new XMLHttpRequest();
   let url = "cart.php?cartid=" + cartid;
   request.open("GET", url);
@@ -68,4 +50,8 @@ function removeFromCart(event, cartid) {
     }
   };
   request.send();
+}
+
+function rerender() {
+  ajaxComponent("profile");
 }
