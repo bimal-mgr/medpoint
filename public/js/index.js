@@ -134,8 +134,8 @@ const cart = (id, button, quantity) => {
       updateCartIcon();
       domQuantity.innerText = 1;
       timeout = setTimeout(() => {
-        button.innerText = "Add to cart";
-      }, 500);
+        item(itemElement.sellerId, itemElement.productId);
+      }, 200);
     }
   };
   request.send();
@@ -154,11 +154,8 @@ function deliverComponent(query, button) {
       button.innerText = "bought!!";
       domQuantity.innerText = 1;
       timeout = setTimeout(() => {
-        button.innerText = "Buy now";
-      }, 500);
-      timeout = setTimeout(() => {
         item(itemElement.sellerId, itemElement.productId);
-      }, 500);
+      }, 200);
     }
   };
   request.send();

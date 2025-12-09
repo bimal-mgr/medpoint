@@ -23,25 +23,39 @@ if (isset($_SESSION["username"])) {
         if (mysqli_num_rows($resultCheck) > 0) {
             // Product exists in cart → update cart and stock
             $sqlupdatecart = "UPDATE cart SET number = number + $quantity WHERE user_id='$user_id' AND inventory_id = $inventoryid";
-            mysqli_query($conn, $sqlupdatecart);
+            if (mysqli_query($conn, $sqlupdatecart)) {
+                $sqlUpdateStock = "UPDATE inventory set stock = stock - $quantity WHERE inventory_id = $inventoryid";
+                mysqli_query($conn, $sqlUpdateStock);
+            }
             exit();
         } else {
             // Product not in cart → insert into cart
             $sqlinsert = "INSERT INTO cart (user_id, inventory_id, number)
                           VALUES ('$user_id', $inventoryid, $quantity)";
-            mysqli_query($conn, $sqlinsert);
+            if (mysqli_query($conn, $sqlinsert)) {
+                $sqlUpdateStock = "UPDATE inventory set stock = stock - $quantity WHERE inventory_id = $inventoryid";
+                mysqli_query($conn, $sqlUpdateStock);
+            }
             exit();
         }
     }
     // 2. Remove from cart
     if (isset($_GET["cartid"])) {
         $cartid = $_GET["cartid"];
-        $sqlremove = "DELETE FROM cart WHERE cart_id=$cartid";
-        if (mysqli_query($conn, $sqlremove)) {
-            echo "Product removed from cart.";
-        } else {
-            http_response_code(500);
-            echo "Failed to remove product from cart.";
+        $sql = "SELECT inventory_id, number FROM cart WHERE cart_id = $cartid";
+        $result = mysqli_query($conn, $sql);
+        if ($row = mysqli_fetch_assoc($result)) {
+            $inventoryid = $row["inventory_id"];
+            $quantity = $row["number"];
+            $sqlUpdateStock = "UPDATE inventory set stock = stock + $quantity WHERE inventory_id = $inventoryid";
+            mysqli_query($conn, $sqlUpdateStock);
+            $sqlremove = "DELETE FROM cart WHERE cart_id=$cartid";
+            if (mysqli_query($conn, $sqlremove)) {
+                echo "Product removed from cart.";
+            } else {
+                http_response_code(500);
+                echo "Failed to remove product from cart.";
+            }
         }
         exit();
     }
