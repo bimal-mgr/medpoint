@@ -48,13 +48,19 @@ if (isset($_POST["login"])) {
         } elseif ($type === "user") {
             $checkSeller = mysqli_query(
                 $conn,
-                "SELECT 1 FROM seller WHERE user_id=$id",
+                "SELECT seller_id FROM seller WHERE user_id=$id",
             );
 
             if (mysqli_num_rows($checkSeller) > 0) {
                 $_SESSION["level"] = 2; // seller
+                $_SESSION["seller_id"] = mysqli_fetch_assoc($checkSeller)[
+                    "seller_id"
+                ];
             } else {
                 $_SESSION["level"] = 3; // normal user
+                $_SESSION["seller_id"] = mysqli_fetch_assoc($checkSeller)[
+                    "seller_id"
+                ];
             }
         } else {
             exit("Invalid type in URL");

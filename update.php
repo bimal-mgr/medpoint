@@ -17,7 +17,7 @@ if ($_GET["type"] == "profile") {
     $sql = "UPDATE users SET  full_name = '$fullname', gender = '$gender', phone_number = '$phone_number', address = '$street', city = '$city', province = '$province' WHERE user_id = $id";
     if (mysqli_query($conn, $sql)) {
         $_SESSION["fullname"] = $fullname;
-        header("Location: profile.php");
+        header("Location: profile.php?query=profile");
         exit();
     } else {
         http_response_code(500);
