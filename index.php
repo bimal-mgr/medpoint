@@ -1,4 +1,7 @@
-<?php include "header.php"; ?>
+<?php
+session_start();
+include "header.php";
+?>
 <body>
   <?php include "navbar.php"; ?>
   <section class="bg-[linear-gradient(135deg,#00bfa5_0%,#00796b_100%)] hero relative overflow-hidden text-white px-[60px] py-[20px]">

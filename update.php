@@ -54,6 +54,7 @@ if ($_GET["type"] == "profile") {
             if (move_uploaded_file($_FILES["docs"]["tmp_name"], $target_file)) {
                 $sqlseller = "INSERT INTO seller (reg_id, shop_name, document_path, user_id) VALUES ('$regid', '$shopname', '$target_file', '$id')";
                 if (mysqli_query($conn, $sqlseller)) {
+                    $_SESSION["seller_id"] = mysqli_insert_id($conn);
                     $_SESSION["level"] = 2;
                     header("Location: seller/dashboard.php");
                     exit();

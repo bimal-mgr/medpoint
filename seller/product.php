@@ -11,6 +11,7 @@
             $price = $_POST["unit_price"];
             $description = $_POST["description"];
             $stock = $_POST["stock"];
+            $target_dir = "public/";
             if (
                 isset($_POST["medicineName"]) &&
                 isset($_POST["medicineCategory"])
@@ -141,7 +142,7 @@
                     <h3 class="text-lg font-semibold text-[#333] mb-5 pb-2 border-b-2 border-[#f0f0f0]">Pictures</h3>
                         <div class="flex flex-col">
                             <label for="docs" class="font-base font-semibold mb-2 text-[#555]">Medicine picture (*.jpg, *.png)</label>
-                            <input name="docs" id="docs" type="file" accept=".jpg, .png" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" />
+                            <input required name="docs" id="docs" type="file" accept=".jpg, .png" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" />
                         </div>
                 </div>
             </form>
