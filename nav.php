@@ -1,5 +1,3 @@
-<?php
-define("BASE_URL", "http://localhost/medpoint"); ?>
 
 <nav class="z-[40] bg-ash shadow-md sticky top-0">
   <div class="flex max-w-[1200px] mx-auto w-full inherit flex-wrap items-center justify-between p-3">
@@ -28,7 +26,7 @@ define("BASE_URL", "http://localhost/medpoint"); ?>
         <div class="px-4 py-3">
           <span class="block text-sm text-gray-900 dark:text-white">
             <?php
-            session_start();
+            
             if (isset($_SESSION["username"])) {
                 echo $_SESSION["username"];
             } else {

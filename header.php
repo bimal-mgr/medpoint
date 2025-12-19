@@ -1,4 +1,5 @@
-<?php define("BASE_URL", "http://localhost/medpoint"); ?>
+<?php define("BASE_URL", "http://localhost/medpoint");
+ ?>
 
 <!DOCTYPE html>
 <html lang="en">

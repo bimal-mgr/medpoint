@@ -1,7 +1,7 @@
         <?php
         $conn = mysqli_connect("localhost", "root", "", "medpoint");
         session_start();
-        include "header.php";
+        
         if (!isset($_SESSION["seller_id"])) {
             header("location: login.php");
             exit();

@@ -1,5 +1,4 @@
-<?php
-define("BASE_URL", "http://localhost/medpoint");
+<?php   
 $conn = mysqli_connect("localhost", "root", "", "medpoint");
 session_start();
 if (!isset($_SESSION["username"])) {
